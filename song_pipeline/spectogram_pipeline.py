@@ -1,17 +1,16 @@
 import torch
-from workflow_actions.prepare_dataset.source.feature_extractor import FeatureExtractor
-from workflow_actions.prepare_dataset.source.constants import N_MELS, N_SECONDS, STEP, SPEC_TYPE, PROJECT_FOLDER_DIR, \
+from song_pipeline.feature_extractor import FeatureExtractor
+from song_pipeline.constants import N_MELS, N_SECONDS, STEP, SPEC_TYPE, PROJECT_FOLDER_DIR, \
     TAGS_DIR, LABELS_DIR, SONGS_DIR, DATA_DIR
-from workflow_actions.prepare_dataset.source.dict_types import ConfigType, SongSpecDataType
-from workflow_actions.prepare_dataset.source.utils import get_all_tags, \
+from song_pipeline.dict_types import ConfigType, SongSpecDataType
+from song_pipeline.utils import write_dict_to_json, read_json_to_dict, get_all_tags, \
     multi_hot_batch, tags_to_tags_indexes, save_multi_hotted_labels, prepare_for_dataset
-from workflow_actions.json_handlers import read_json_to_dict, write_dict_to_json
 from typing import Literal
 import numpy as np
 import os
 
 
-class SpectrogramPipeline:
+class SpectogramPipeline:
     """
     A pipeline for processing audio files into spectrogram data and preparing it for use in machine learning models.
 
@@ -316,7 +315,7 @@ class SpectrogramPipeline:
 
 if __name__ == "__main__":
     # Run below snippet to prepare data after scraping it
-    ppl = SpectrogramPipeline(os.path.join(SONGS_DIR, 'music1'))
+    ppl = SpectogramPipeline(os.path.join(SONGS_DIR, 'music1'))
     ppl.multi_hot_tags_of_all_songs()
     ppl.set_config(
         n_mels=N_MELS,
@@ -328,7 +327,7 @@ if __name__ == "__main__":
     )
     ppl.make_dataset_ready_data(set_num=1)
 
-    ppl = SpectrogramPipeline(os.path.join(SONGS_DIR, 'music2'))
+    ppl = SpectogramPipeline(os.path.join(SONGS_DIR, 'music2'))
     ppl.set_config(
         n_mels=N_MELS,
         n_seconds=N_SECONDS,
@@ -339,7 +338,7 @@ if __name__ == "__main__":
     )
     ppl.make_dataset_ready_data(set_num=2)
 
-    ppl = SpectrogramPipeline(os.path.join(SONGS_DIR, 'music3'))
+    ppl = SpectogramPipeline(os.path.join(SONGS_DIR, 'music3'))
     ppl.set_config(
         n_mels=N_MELS,
         n_seconds=N_SECONDS,
